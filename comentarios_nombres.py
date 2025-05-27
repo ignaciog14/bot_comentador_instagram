@@ -1,9 +1,12 @@
 import itertools
 import configparser
+import random
 
-# Read configuration for users_per_comment
+# Read configuration
 config = configparser.ConfigParser()
 config.read('config.ini')
+
+# Read users_per_comment
 users_per_comment = 2 # Default value
 try:
     u_per_comment_str = config.get('General', 'users_per_comment')
@@ -16,6 +19,12 @@ except (configparser.NoSectionError, configparser.NoOptionError):
     print("Missing 'users_per_comment' in config.ini under [General] section. Defaulting to 2.")
 except ValueError:
     print(f"Invalid integer value for 'users_per_comment' ('{u_per_comment_str}') in config.ini. Defaulting to 2.")
+
+# Read and parse custom_messages
+custom_messages_str = config.get('General', 'custom_messages', fallback='')
+parsed_messages = []
+if custom_messages_str:
+    parsed_messages = [msg.strip() for msg in custom_messages_str.split(',') if msg.strip()]
 
 # Read usernames from usernames.txt
 try:
@@ -34,7 +43,13 @@ elif len(usernames) < users_per_comment:
 else:
     combinations = list(itertools.combinations(usernames, users_per_comment))
     for comb in combinations:
-        combinaciones_formato.append(' '.join([f'@{user}' for user in comb]))
+        current_comment_users = ' '.join([f'@{user}' for user in comb])
+        if parsed_messages:
+            random_message = random.choice(parsed_messages)
+            final_comment = f"{current_comment_users} {random_message}"
+        else:
+            final_comment = current_comment_users
+        combinaciones_formato.append(final_comment)
 
 # Print the result (optional, for verification)
 if combinaciones_formato:

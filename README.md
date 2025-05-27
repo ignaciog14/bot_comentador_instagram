@@ -55,12 +55,16 @@ This bot automates the process of tagging a list of friends in the comments sect
             *   Example: `35`
         *   `users_per_comment`: The number of users to tag in each individual comment.
             *   Example: `2` (tags two users per comment)
+        *   `custom_messages`: A comma-separated list of custom messages or emojis to append after the tagged usernames.
+            *   Example: `custom_messages = Good luck everyone!, Hoping to win! 🚀, So excited!`
+            *   Behavior: If provided, one message is chosen randomly and appended to the comment. If left empty or the setting is omitted, no custom message is added.
     *   **Example `config.ini`:**
         ```ini
         [General]
         post_url = https://www.instagram.com/p/your_post_id_here/
         comment_delay = 35
         users_per_comment = 2
+        custom_messages = Vamos por ese premio!, 🔥🔥🔥, Con todo! 🎉
         ```
         *Replace `https://www.instagram.com/p/your_post_id_here/` with the actual post URL.*
 
